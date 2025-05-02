@@ -7,7 +7,24 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Basic Shopping List</h1>
+    <div class="container">
+      <h1>Shopping List</h1>
+      <div class="info">
+        <div id="itemCount">Total Items: 0</div>
+      </div>
+
+      <form id="shoppingForm">
+        <input type="text" id="itemInput" placeholder="Enter an item..." />
+        <button type="submit" id="addButton">Add</button>
+      </form>
+
+      <ul id="shoppingList">
+        <!-- Items will be added with JavaScript -->
+      </ul>
+
+      <button id="clearButton">Clear All</button>
+    </div>
+
     <script src="app.js"></script>
   </body>
 </html>
