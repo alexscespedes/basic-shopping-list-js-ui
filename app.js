@@ -22,7 +22,12 @@ function addShoppingList(item) {
 
   itemList.innerHTML = `
   <li>${item}</li>
+  <li><button class="delete-btn">Delete</button></li>
   `;
+
+  itemList.querySelector(".delete-btn").addEventListener("click", function () {
+    itemList.remove();
+  });
 
   shoppingList.appendChild(itemList);
 }
