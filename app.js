@@ -4,6 +4,9 @@ const itemInput = document.getElementById("itemInput");
 const totalItems = document.getElementById("itemCount");
 const shoppingList = document.getElementById("shoppingList");
 
+// Count items
+let item = 0;
+
 function addItem() {
   const item = itemInput.value.trim();
 
@@ -14,6 +17,7 @@ function addItem() {
 
   console.log(item);
   addShoppingList(item);
+  countItems();
 
   // Clear input after submit.
   itemInput.value = "";
@@ -42,4 +46,11 @@ function addShoppingList(item) {
 
 function clearShoppingList() {
   shoppingList.innerHTML = "";
+  totalItems.textContent = "Total Items: 0";
+}
+
+function countItems() {
+  item += 1;
+  totalItems.textContent = `Total Items: ${item}`;
+  console.log(item);
 }
