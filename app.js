@@ -29,13 +29,17 @@ function addShoppingList(item) {
   <li><span><button class="delete-btn">Delete</button></span></li>
   `;
 
-  itemList.querySelector("li").addEventListener("click", function () {
-    itemList.classList.toggle("purchased");
-  });
-
   itemList.querySelector(".delete-btn").addEventListener("click", function () {
     itemList.remove();
   });
 
+  itemList.querySelector("li").addEventListener("click", function () {
+    itemList.classList.toggle("purchased");
+  });
+
   shoppingList.appendChild(itemList);
+}
+
+function clearShoppingList() {
+  shoppingList.innerHTML = "";
 }
