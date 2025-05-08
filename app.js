@@ -29,13 +29,9 @@ function addShoppingList(item) {
   <li><span><button class="delete-btn">Delete</button></span></li>
   `;
 
-  /*
-It has to be a button that when is clicked, has to change name of the item (purchased)
-  //  <li class="purchased"><span>Purchase</span></li>
-
-  implement this just when the user select something like "purchase".
-  itemList.classList.toggle("purchased");
-  */
+  itemList.querySelector("li").addEventListener("click", function () {
+    itemList.classList.toggle("purchased");
+  });
 
   itemList.querySelector(".delete-btn").addEventListener("click", function () {
     itemList.remove();
@@ -43,7 +39,3 @@ It has to be a button that when is clicked, has to change name of the item (purc
 
   shoppingList.appendChild(itemList);
 }
-
-// addEventListener("click", function (e) {
-
-// });
