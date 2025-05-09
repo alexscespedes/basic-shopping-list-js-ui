@@ -15,7 +15,8 @@ function addItem() {
     return;
   }
 
-  console.log(item);
+  items.push(item);
+  saveToLocalStorage();
   addShoppingList(item);
   countItems();
 
@@ -33,6 +34,8 @@ function addShoppingList(item) {
 
   itemList.querySelector(".delete-btn").addEventListener("click", function () {
     itemList.remove();
+    saveToLocalStorage();
+    countItems();
   });
 
   itemList.querySelector("li").addEventListener("click", function () {
@@ -54,12 +57,16 @@ function countItems() {
 
 function saveToLocalStorage() {
   localStorage.setItem("shopping-list", JSON.stringify(items));
+  console.log(JSON.stringify(items));
 }
 
 function loadFromLocalStorage() {
   const stored = localStorage.getItem("shopping-list");
   if (stored) {
     items = JSON.parse(stored);
-    items.forEach((item) => renderItem(item));
+    items.forEach((item) => addShoppingList(item));
+    countItems();
   }
 }
+
+window.addEventListener("DOMContentLoaded", loadFromLocalStorage);
