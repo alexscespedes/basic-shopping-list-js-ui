@@ -4,8 +4,8 @@ const itemInput = document.getElementById("itemInput");
 const totalItems = document.getElementById("itemCount");
 const shoppingList = document.getElementById("shoppingList");
 
-// Count items
-let item = 0;
+let count = 0;
+let items = [];
 
 function addItem() {
   const item = itemInput.value.trim();
@@ -21,8 +21,6 @@ function addItem() {
 
   // Clear input after submit.
   itemInput.value = "";
-  //   totalItems.innerHTML = "Total Items 1";
-  //   event.preventDefault();
 }
 
 function addShoppingList(item) {
@@ -50,7 +48,18 @@ function clearShoppingList() {
 }
 
 function countItems() {
-  item += 1;
-  totalItems.textContent = `Total Items: ${item}`;
-  console.log(item);
+  count += 1;
+  totalItems.textContent = `Total Items: ${count}`;
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem("shopping-list", JSON.stringify(items));
+}
+
+function loadFromLocalStorage() {
+  const stored = localStorage.getItem("shopping-list");
+  if (stored) {
+    items = JSON.parse(stored);
+    items.forEach((item) => renderItem(item));
+  }
 }
