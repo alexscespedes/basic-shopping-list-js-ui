@@ -8,12 +8,17 @@ let count = 0;
 let items = [];
 
 function addItem() {
-  const item = itemInput.value.trim();
+  const itemName = itemInput.value.trim();
 
-  if (item === "") {
+  if (itemName === "") {
     alert("Please enter a valid item");
     return;
   }
+
+  const item = {
+    id: Date.now(),
+    itemName,
+  };
 
   items.push(item);
   saveToLocalStorage();
@@ -28,11 +33,16 @@ function addShoppingList(item) {
   const itemList = document.createElement("li");
 
   itemList.innerHTML = `
-  <li><span>${item}</span></li>
+  <li><span>${item.itemName}</span></li>
   <li><span><button class="delete-btn">Delete</button></span></li>
   `;
 
   itemList.querySelector(".delete-btn").addEventListener("click", function () {
+    const id = Number(item.id);
+    console.log(id);
+
+    items = items.filter((item) => item.id !== id);
+
     itemList.remove();
     saveToLocalStorage();
     countItems();
@@ -47,6 +57,10 @@ function addShoppingList(item) {
 
 function clearShoppingList() {
   shoppingList.innerHTML = "";
+
+  items = [];
+  localStorage.removeItem("shopping-list");
+
   totalItems.textContent = "Total Items: 0";
 }
 
@@ -57,7 +71,6 @@ function countItems() {
 
 function saveToLocalStorage() {
   localStorage.setItem("shopping-list", JSON.stringify(items));
-  console.log(JSON.stringify(items));
 }
 
 function loadFromLocalStorage() {
