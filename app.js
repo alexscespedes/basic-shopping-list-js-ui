@@ -4,7 +4,6 @@ const itemInput = document.getElementById("itemInput");
 const totalItems = document.getElementById("itemCount");
 const shoppingList = document.getElementById("shoppingList");
 
-let count = 0;
 let items = [];
 
 function addItem() {
@@ -39,8 +38,6 @@ function addShoppingList(item) {
 
   itemList.querySelector(".delete-btn").addEventListener("click", function () {
     const id = Number(item.id);
-    console.log(id);
-
     items = items.filter((item) => item.id !== id);
 
     itemList.remove();
@@ -61,12 +58,11 @@ function clearShoppingList() {
   items = [];
   localStorage.removeItem("shopping-list");
 
-  totalItems.textContent = "Total Items: 0";
+  countItems();
 }
 
 function countItems() {
-  count += 1;
-  totalItems.textContent = `Total Items: ${count}`;
+  totalItems.textContent = `Total Items: ${items.length}`;
 }
 
 function saveToLocalStorage() {
