@@ -3,6 +3,7 @@
 const itemInput = document.getElementById("itemInput");
 const totalItems = document.getElementById("itemCount");
 const shoppingList = document.getElementById("shoppingList");
+const shoppingForm = document.getElementById("shoppingForm");
 
 let items = [];
 
@@ -32,8 +33,8 @@ function addShoppingList(item) {
   const itemList = document.createElement("li");
 
   itemList.innerHTML = `
-  <li><span>${item.itemName}</span></li>
-  <li><span><button class="delete-btn">Delete</button></span></li>
+  <span>${item.itemName}</span>
+  <button class="delete-btn">Delete</button>
   `;
 
   itemList.querySelector(".delete-btn").addEventListener("click", function () {
@@ -45,8 +46,10 @@ function addShoppingList(item) {
     countItems();
   });
 
-  itemList.querySelector("li").addEventListener("click", function () {
-    itemList.classList.toggle("purchased");
+  itemList.addEventListener("click", function (e) {
+    if (e.target.tagName === "SPAN") {
+      itemList.classList.toggle("purchased");
+    }
   });
 
   shoppingList.appendChild(itemList);
