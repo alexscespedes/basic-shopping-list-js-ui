@@ -81,4 +81,11 @@ function loadFromLocalStorage() {
   }
 }
 
+document
+  .getElementById("shoppingForm")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+    addItem();
+  });
+
 window.addEventListener("DOMContentLoaded", loadFromLocalStorage);
