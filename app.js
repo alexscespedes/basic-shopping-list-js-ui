@@ -23,7 +23,7 @@ function addItem() {
   items.push(item);
   saveToLocalStorage();
   addShoppingList(item);
-  countItems();
+  updateTotalItems();
 
   // Clear input after submit.
   itemInput.value = "";
@@ -43,7 +43,7 @@ function addShoppingList(item) {
 
     itemList.remove();
     saveToLocalStorage();
-    countItems();
+    updateTotalItems();
   });
 
   itemList.addEventListener("click", function (e) {
@@ -61,10 +61,10 @@ function clearShoppingList() {
   items = [];
   localStorage.removeItem("shopping-list");
 
-  countItems();
+  updateTotalItems();
 }
 
-function countItems() {
+function updateTotalItems() {
   totalItems.textContent = `Total Items: ${items.length}`;
 }
 
@@ -77,7 +77,7 @@ function loadFromLocalStorage() {
   if (stored) {
     items = JSON.parse(stored);
     items.forEach((item) => addShoppingList(item));
-    countItems();
+    updateTotalItems();
   }
 }
 
