@@ -1,11 +1,21 @@
 // Get DOM Elements
 
 const itemInput = document.getElementById("itemInput");
-const totalItems = document.getElementById("itemCount");
+const itemCountDisplay = document.getElementById("itemCount");
 const shoppingList = document.getElementById("shoppingList");
 const shoppingForm = document.getElementById("shoppingForm");
+const clearButton = document.getElementById("clearButton");
 
 let items = [];
+
+shoppingForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  addItem();
+});
+
+clearButton.addEventListener("click", clearShoppingList);
+
+window.addEventListener("DOMContentLoaded", loadFromLocalStorage);
 
 function addItem() {
   const itemName = itemInput.value.trim();
@@ -18,54 +28,51 @@ function addItem() {
   const item = {
     id: Date.now(),
     itemName,
+    purchased: false,
   };
 
   items.push(item);
   saveToLocalStorage();
-  addShoppingList(item);
-  updateTotalItems();
+  renderItem(item);
+  updateItemCount();
 
-  // Clear input after submit.
   itemInput.value = "";
 }
 
-function addShoppingList(item) {
-  const itemList = document.createElement("li");
+function renderItem(item) {
+  const itemElement = document.createElement("li");
+  if (item.purchased) itemElement.classList.add("purchased");
 
-  itemList.innerHTML = `
+  itemElement.innerHTML = `
   <span>${item.itemName}</span>
   <button class="delete-btn">Delete</button>
   `;
 
-  itemList.querySelector(".delete-btn").addEventListener("click", function () {
-    const id = Number(item.id);
-    items = items.filter((item) => item.id !== id);
-
-    itemList.remove();
+  itemElement.querySelector("span").addEventListener("click", () => {
+    item.purchased = !item.purchased;
+    itemElement.classList.toggle("purchased");
     saveToLocalStorage();
-    updateTotalItems();
   });
 
-  itemList.addEventListener("click", function (e) {
-    if (e.target.tagName === "SPAN") {
-      itemList.classList.toggle("purchased");
-    }
+  itemElement.querySelector(".delete-btn").addEventListener("click", () => {
+    items = items.filter((i) => i.id !== item.id);
+    itemElement.remove();
+    saveToLocalStorage();
+    updateItemCount();
   });
 
-  shoppingList.appendChild(itemList);
+  shoppingList.appendChild(itemElement);
+}
+
+function updateItemCount() {
+  itemCountDisplay.textContent = `Total Items: ${items.length}`;
 }
 
 function clearShoppingList() {
-  shoppingList.innerHTML = "";
-
   items = [];
+  shoppingList.innerHTML = "";
   localStorage.removeItem("shopping-list");
-
-  updateTotalItems();
-}
-
-function updateTotalItems() {
-  totalItems.textContent = `Total Items: ${items.length}`;
+  updateItemCount();
 }
 
 function saveToLocalStorage() {
@@ -73,19 +80,10 @@ function saveToLocalStorage() {
 }
 
 function loadFromLocalStorage() {
-  const stored = localStorage.getItem("shopping-list");
-  if (stored) {
-    items = JSON.parse(stored);
-    items.forEach((item) => addShoppingList(item));
-    updateTotalItems();
+  const storedItems = localStorage.getItem("shopping-list");
+  if (storedItems) {
+    items = JSON.parse(storedItems);
+    items.forEach((item) => renderItem(item));
+    updateItemCount();
   }
 }
-
-document
-  .getElementById("shoppingForm")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-    addItem();
-  });
-
-window.addEventListener("DOMContentLoaded", loadFromLocalStorage);
